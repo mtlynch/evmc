@@ -35,6 +35,7 @@ commands:
       - run:
           name: "Environment"
           command: |
+            set -x
             CC=${CC:-cc}
             CXX=${CXX:-cpp}
             echo CC: $CC
@@ -54,6 +55,7 @@ commands:
           name: "Configure"
           working_directory: ~/build
           command: |
+            set -x
             cmake ../project <<#parameters.build_type>>-DCMAKE_BUILD_TYPE=<<parameters.build_type>><</parameters.build_type>> <<#parameters.toolchain>>-DCMAKE_TOOLCHAIN_FILE=~/project/cmake/cable/toolchains/<<parameters.toolchain>>.cmake<</parameters.toolchain>> -DCMAKE_INSTALL_PREFIX=~/install -DCMAKE_COMPILE_WARNING_AS_ERROR=TRUE -DEVMC_TESTING=ON $CMAKE_OPTIONS
       - save_cache:
           name: "Save Hunter Cache"
@@ -178,7 +180,7 @@ jobs:
           command: |
             # Remove problematic symbolic link
             rm bindings/rust/evmc-sys/evmc.h
-            
+
             git config user.name  "Documentation Bot"
             git config user.email "docs-bot@ethereum.org"
             git add --all
